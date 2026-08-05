@@ -42,17 +42,12 @@ function getTransporter() {
     auth: {
       user: MAIL_USER,
       pass: MAIL_PASS
-    },
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000,
-    tls: {
-      rejectUnauthorized: false
     }
   });
 
   return transporter;
 }
+
 function emailShell(title, bodyHtml) {
   return `
   <!DOCTYPE html>
