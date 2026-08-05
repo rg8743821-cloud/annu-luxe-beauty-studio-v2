@@ -38,15 +38,21 @@ function getTransporter() {
   transporter = nodemailer.createTransport({
     host: MAIL_HOST,
     port,
-    secure: port === 465, // true for 465 (SSL), false for other ports (STARTTLS)
-    auth: { user: MAIL_USER, pass: MAIL_PASS }
+    secure: false,
+    auth: {
+      user: MAIL_USER,
+      pass: MAIL_PASS
+    },
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000,
+    tls: {
+      rejectUnauthorized: false
+    }
   });
 
-  return transporter;
-}
-
-function emailShell(title, bodyHtml) {
-  return `
+  function emailShell(title, bodyHtml) {
+    return `
   <!DOCTYPE html>
   <html>
   <head><meta charset="UTF-8"><title>${title}</title></head>
@@ -87,20 +93,20 @@ function emailShell(title, bodyHtml) {
     </table>
   </body>
   </html>`;
-}
+  }
 
-function detailRow(label, value) {
-  if (!value) return '';
-  return `
+  function detailRow(label, value) {
+    if (!value) return '';
+    return `
     <tr>
       <td style="padding:10px 0; border-bottom:1px dashed #EAE2D6; font-size:13px; color:#767066; width:38%; vertical-align:top;">${label}</td>
       <td style="padding:10px 0; border-bottom:1px dashed #EAE2D6; font-size:14px; color:#111111; font-weight:500;">${value}</td>
     </tr>`;
-}
+  }
 
-/* ---------------- Booking: owner notification ---------------- */
-function bookingOwnerEmail(data) {
-  const body = `
+  /* ---------------- Booking: owner notification ---------------- */
+  function bookingOwnerEmail(data) {
+    const body = `
     <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:${BRAND.goldDark}; font-weight:700; margin-bottom:8px;">New Booking Request</div>
     <h2 style="margin:0 0 18px; color:${BRAND.black}; font-size:20px;">You've received a new appointment request</h2>
     <table role="presentation" width="100%" style="border-collapse:collapse;">
@@ -115,12 +121,12 @@ function bookingOwnerEmail(data) {
     </table>
     <p style="margin-top:24px; font-size:13px; color:#767066;">Please confirm this appointment with the customer by phone or WhatsApp as soon as possible.</p>
   `;
-  return emailShell('New Booking Request', body);
-}
+    return emailShell('New Booking Request', body);
+  }
 
-/* ---------------- Booking: customer confirmation ---------------- */
-function bookingCustomerEmail(data) {
-  const body = `
+  /* ---------------- Booking: customer confirmation ---------------- */
+  function bookingCustomerEmail(data) {
+    const body = `
     <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:${BRAND.goldDark}; font-weight:700; margin-bottom:8px;">Booking Received</div>
     <h2 style="margin:0 0 14px; color:${BRAND.black}; font-size:20px;">Thank you, ${data.name}!</h2>
     <p style="font-size:14px; color:#333; line-height:1.7;">
@@ -140,12 +146,12 @@ function bookingCustomerEmail(data) {
       <span style="display:inline-block; padding:12px 28px; background:${BRAND.gold}; color:#fff; border-radius:999px; font-size:13px; font-weight:600;">We can't wait to pamper you ✨</span>
     </div>
   `;
-  return emailShell('Booking Received — Annu\'s Luxe Beauty Studio', body);
-}
+    return emailShell('Booking Received — Annu\'s Luxe Beauty Studio', body);
+  }
 
-/* ---------------- Contact: owner notification ---------------- */
-function contactOwnerEmail(data) {
-  const body = `
+  /* ---------------- Contact: owner notification ---------------- */
+  function contactOwnerEmail(data) {
+    const body = `
     <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:${BRAND.goldDark}; font-weight:700; margin-bottom:8px;">New Enquiry</div>
     <h2 style="margin:0 0 18px; color:${BRAND.black}; font-size:20px;">You've received a new contact form enquiry</h2>
     <table role="presentation" width="100%" style="border-collapse:collapse;">
@@ -156,12 +162,12 @@ function contactOwnerEmail(data) {
       ${detailRow('Message', data.message)}
     </table>
   `;
-  return emailShell('New Contact Enquiry', body);
-}
+    return emailShell('New Contact Enquiry', body);
+  }
 
-/* ---------------- Contact: customer acknowledgement ---------------- */
-function contactCustomerEmail(data) {
-  const body = `
+  /* ---------------- Contact: customer acknowledgement ---------------- */
+  function contactCustomerEmail(data) {
+    const body = `
     <div style="font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:${BRAND.goldDark}; font-weight:700; margin-bottom:8px;">Message Received</div>
     <h2 style="margin:0 0 14px; color:${BRAND.black}; font-size:20px;">Thank you for reaching out, ${data.name}!</h2>
     <p style="font-size:14px; color:#333; line-height:1.7;">
@@ -176,20 +182,20 @@ function contactCustomerEmail(data) {
       <a href="tel:${BRAND.phone.replace(/\s/g, '')}" style="color:${BRAND.goldDark}; font-weight:600; text-decoration:none;">${BRAND.phone}</a>.
     </p>
   `;
-  return emailShell('We\'ve Received Your Message — Annu\'s Luxe Beauty Studio', body);
-}
+    return emailShell('We\'ve Received Your Message — Annu\'s Luxe Beauty Studio', body);
+  }
 
-async function sendMail({ to, subject, html, replyTo }) {
-  const t = getTransporter();
-  const from = `"${BRAND.name}" <${process.env.MAIL_USER}>`;
-  return t.sendMail({ from, to, subject, html, replyTo });
-}
+  async function sendMail({ to, subject, html, replyTo }) {
+    const t = getTransporter();
+    const from = `"${BRAND.name}" <${process.env.MAIL_USER}>`;
+    return t.sendMail({ from, to, subject, html, replyTo });
+  }
 
-module.exports = {
-  sendMail,
-  bookingOwnerEmail,
-  bookingCustomerEmail,
-  contactOwnerEmail,
-  contactCustomerEmail,
-  BRAND
-};
+  module.exports = {
+    sendMail,
+    bookingOwnerEmail,
+    bookingCustomerEmail,
+    contactOwnerEmail,
+    contactCustomerEmail,
+    BRAND
+  };
