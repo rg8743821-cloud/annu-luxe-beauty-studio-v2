@@ -1,0 +1,33 @@
+{
+  "name": "annu-luxe-beauty-studio",
+  "version": "3.0.0",
+  "description": "Annu's Luxe Beauty Studio — Luxury Home Salon Services at Your Doorstep. Full-stack site (Part 3) with Express server, Nodemailer email integration, working booking & contact forms, rule-based chatbot, WhatsApp/Maps integration, full SEO (schema.org, sitemap, robots.txt), performance and accessibility improvements.",
+  "private": true,
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "keywords": [
+    "home salon",
+    "beauty studio",
+    "bridal makeup",
+    "Indirapuram",
+    "Ghaziabad",
+    "luxury salon"
+  ],
+  "author": "Annu's Luxe Beauty Studio",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "notes": "Part 3 — SEO, performance, accessibility and security pass. Run `npm install` then `npm start`. Copy .env.example to .env and fill in real mail credentials before deploying. Frontend now references public/css/style.min.css and public/js/main.min.js (minified builds of style.css / main.js) for faster loads — the original unminified files remain as the editable source."
+}
