@@ -121,7 +121,7 @@ app.post('/api/booking', formRateLimiter, async (req, res) => {
       message: "Thank you! Your appointment request has been received. We'll confirm your slot shortly by phone or WhatsApp."
     });
   } catch (err) {
-    console.error('Booking email error:', err.message);
+    console.error("Booking FULL ERROR:", err);
     return res.status(500).json({
       success: false,
       message: 'Sorry, something went wrong while sending your request. Please call or WhatsApp us directly at +91 63896 30821.'
@@ -168,7 +168,7 @@ app.post('/api/contact', formRateLimiter, async (req, res) => {
       message: "Thank you for reaching out! We've received your message and will get back to you shortly."
     });
   } catch (err) {
-    console.error('Contact email error:', err.message);
+    console.error("Contact FULL ERROR:", err);
     return res.status(500).json({
       success: false,
       message: 'Sorry, something went wrong while sending your message. Please call or WhatsApp us directly at +91 63896 30821.'
