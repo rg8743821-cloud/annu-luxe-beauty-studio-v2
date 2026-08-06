@@ -8,6 +8,12 @@
 
 require('dotenv').config();
 
+console.log("MAIL_HOST =", process.env.MAIL_HOST);
+console.log("MAIL_PORT =", process.env.MAIL_PORT);
+console.log("MAIL_USER =", process.env.MAIL_USER);
+console.log("MAIL_FROM =", process.env.MAIL_FROM);
+console.log("MAIL_PASS Exists =", !!process.env.MAIL_PASS);
+
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
