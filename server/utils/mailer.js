@@ -36,15 +36,14 @@ function getTransporter() {
   const port = parseInt(MAIL_PORT, 10) || 587;
 
   transporter = nodemailer.createTransport({
-    host: MAIL_HOST,
-    port,
+    host: "smtp.gmail.com",
+    port: 587,
     secure: false,
     auth: {
-      user: MAIL_USER,
-      pass: MAIL_PASS
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS
     }
   });
-
   return transporter;
 }
 
