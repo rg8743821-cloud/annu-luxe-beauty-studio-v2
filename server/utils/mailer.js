@@ -185,7 +185,20 @@ function contactCustomerEmail(data) {
 async function sendMail({ to, subject, html, replyTo }) {
   const t = getTransporter();
   const from = `"${BRAND.name}" <${process.env.MAIL_USER}>`;
-  return t.sendMail({ from, to, subject, html, replyTo });
+
+  console.log("Sending email to:", to);
+
+  const info = await t.sendMail({
+    from,
+    to,
+    subject,
+    html,
+    replyTo
+  });
+
+  console.log("Mail sent successfully:", info);
+
+  return info;
 }
 
 module.exports = {
