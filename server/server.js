@@ -47,7 +47,14 @@ app.use(express.static(PROJECT_ROOT, { extensions: ['html'] }));
 /* Friendly root redirect to the homepage */
 app.get('/', (req, res) => {
   res.redirect('/public/index.html');
+}); 
+
+app.get('/google4c422949215b54dd.html', (req, res) => {
+  res.sendFile(path.join(PROJECT_ROOT, 'public', 'google4c422949215b54dd.html'));
 });
+  res.redirect('/public/index.html');
+});
+
 
 /* ---------------- Security: basic in-memory rate limiter ----------------
    Lightweight, dependency-free throttle for the two public POST endpoints.
