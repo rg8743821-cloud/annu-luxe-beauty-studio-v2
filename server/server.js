@@ -101,20 +101,7 @@ app.post('/api/booking', formRateLimiter, async (req, res) => {
   }
 
   try {
-    // Notify the business owner
-    await sendMail({
-      to: process.env.MAIL_TO,
-      subject: `New Booking — ${data.service} for ${data.name}`,
-      html: bookingOwnerEmail(data),
-      replyTo: data.email
-    });
 
-    // Confirmation email to the customer
-    await sendMail({
-      to: data.email,
-      subject: "Your Appointment Request — Annu's Luxe Beauty Studio",
-      html: bookingCustomerEmail(data)
-    });
 
     return res.status(200).json({
       success: true,

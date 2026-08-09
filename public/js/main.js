@@ -286,7 +286,8 @@ document.addEventListener('DOMContentLoaded', function () {
       showFormMessage(bookingMsg, 'Sending your booking request…', 'loading');
 
       try {
-        var result = await postJSON('/api/booking', { name: name, phone: phone, email: email, service: service, date: date, time: time, address: address, message: message, website: honeypot });
+         var result = { ok: true, payload: { success: true, message: "Your booking request is ready. Please send the details on WhatsApp to confirm your appointment." } };
+window.open("https://wa.me/916389630821?text=" + encodeURIComponent("New Booking Request\n\nName: " + name + "\nPhone: " + phone + "\nEmail: " + email + "\nService: " + service + "\nDate: " + date + "\nTime: " + time + "\nAddress: " + address + "\nSpecial Request: " + (message || "None")), "_blank");
         if (result.ok && result.payload && result.payload.success) {
           showFormMessage(bookingMsg, result.payload.message || 'Thank you! Your appointment request has been received.', 'success');
           bookingForm.reset();
