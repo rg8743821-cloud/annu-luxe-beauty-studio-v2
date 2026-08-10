@@ -1,8 +1,8 @@
-User-agent: *
+ User-agent: *
 Allow: /
 
 Disallow: /server/
 Disallow: /.env
 Disallow: /api/
 
-Sitemap: https://annusluxebeautystudio.com/sitemap.xml
+Sitemap: https://annu-luxe-beauty-studio-v2.onrender.com/public/sitemap.xml
